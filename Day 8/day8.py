@@ -22,19 +22,17 @@ def part2():
 
     total = 0
 
-    # decode works, this doesn't. Fix it!!!
     for input in inputs:
         code = decode(input)
-        print(code)
         out = ""
         for o in outputs[inputs.index(input)]:
             o = ''.join(sorted(o))
             for c in code:
                 if code[c] == o:
-                    out += ""
-        #total += int(out)
+                    out += str(list(code).index(c))
+        total += int(out)
 
-    #print(total)
+    print(total)
 
 def decode(input):
     decode = {}
@@ -55,7 +53,7 @@ def decode(input):
             i = ''.join(sorted(i))
             length = len(i)
             if length == 5: # values 2, 3 or 5
-                if len(set(i).intersection(decode[1])) == 2:
+                if len(set(i).intersection(decode[7])) == 3:
                     decode[3] = i
                 elif len(set(i).intersection(decode[4])) == 2:
                     decode[2] = i
@@ -63,14 +61,14 @@ def decode(input):
                     decode[5] = i
 
             if length == 6: # values 0, 6, 9
-                if len(set(i).intersection(decode[4])) == 4:
-                    decode[9] = i
-                elif len(set(i).intersection(decode[4])) == 3:
+                if len(set(i).intersection(decode[7])) == 2:
                     decode[6] = i
+                elif len(set(i).intersection(decode[4])) == 4:
+                    decode[9] = i
                 else:
                     decode[0] = i
 
-    return decode
+    return {key: decode[key] for key in sorted(decode)}
     
 def main():
     part1()
